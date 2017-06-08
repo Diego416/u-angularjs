@@ -1,0 +1,14 @@
+<div class="home-view d-flex align-items-center">
+    <div class="jumbotron login">
+        <form name="signInForm" novalidate ng-submit="signInForm.$valid && signInCtrl.signIn()">
+            <h1>Sign In</h1><br>
+            <input type="email" placeholder="Email" required ng-model="signInCtrl.email" /><br><br>
+            <input type="password" placeholder="Password" required ng-model="signInCtrl.password" /><br><br>
+            <input type="submit" value="Sign In" class="btn btn-lg btn-success" />
+            <br>
+            <br>
+            <p ng-show="!signInForm.$valid">*Por favor complete el formulario</p>
+        </form>
+    </div>
+
+</div>

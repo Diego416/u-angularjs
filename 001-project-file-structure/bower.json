@@ -20,6 +20,7 @@
   },
   "resolutions": {
     "jquery": "~2.1.4",
-    "angular": "~1.5.3"
+    "angular": "~1.5.3",
+    "bootstrap": "v4.0.0-alpha.6"
   }
 }

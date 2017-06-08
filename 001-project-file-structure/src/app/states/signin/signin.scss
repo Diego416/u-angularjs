@@ -1,0 +1,15 @@
+.ng-invalid.ng-dirty {
+    border-color: red;
+}
+
+.ng-valid.ng-dirty {
+    border-color: green;
+}
+
+.login {
+    margin-left: 100%;
+}
+
+input {
+    width: 300px;
+}
