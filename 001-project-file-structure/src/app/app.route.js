@@ -22,7 +22,9 @@
             })
             .state('dashboard', {
                 url: '/dashboard',
-                templateUrl: 'app/states/dashboard/dashboard.html'
+                templateUrl: 'app/states/dashboard/dashboard.html',
+                controller: 'DashboardController',
+                controllerAs: 'DashCtrl'
             });
 
         $urlRouterProvider.otherwise('/');
