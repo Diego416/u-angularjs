@@ -7,23 +7,20 @@
 
     /** @ngInject */
     function cardDirective() {
-        function link($scope) {
-
-        }
+        function link($scope) {}
 
         return {
-            scope: {},
-            controller: 'CardController',
-            controllerAs: 'cardCtrl',
-            bindToController: {
+            scope: {
                 icon: '=',
                 title: '=',
                 message: '=',
                 description: '=',
                 background: '=',
                 textcolor: '=',
-                favorites: '='
+                addfavorites: '&addfavorites'
             },
+            controller: 'CardController',
+            controllerAs: 'cardCtrl',
             templateUrl: 'app/components/card/card.html',
             link: link
         };

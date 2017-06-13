@@ -13,16 +13,21 @@
         vm.card = {};
         vm.favorites = [];
         vm.setIcon = setIcon;
-        $scope.add = add;
+        vm.add = add;
 
         function setIcon(iconClass) {
             vm.card.icon = iconClass;
         }
 
         function add(title) {
-            //vm.favorites.push(title);
-            console.log("Add");
-            console.log(vm.favorites);
+            console.log(title);
+            console.log("antes: "); // + vm.favorites);
+            //vm.favorites.push("Hola");
+            //console.log(vm.card.title);
+            if (title != undefined) {
+                vm.favorites.push(title);
+            }
+            console.log("luego: " + vm.favorites);
         }
     }
 
