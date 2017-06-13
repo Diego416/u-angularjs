@@ -1,26 +1,26 @@
 (function() {
-  'use strict';
+    'use strict';
 
-  angular
-    .module('angularApp')
-    .controller('AuthLoginController', AuthLoginController);
+    angular
+        .module('angularApp')
+        .controller('AuthLoginController', AuthLoginController);
 
-  /** @ngInject */
-  function AuthLoginController($log, $stateParams, Auth) {
-    var vm = this;
-    vm.error = false;
-    vm.currentUser = $stateParams.currentUser;
+    /** @ngInject */
+    function AuthLoginController($log, $stateParams, Auth, $state) {
+        var vm = this;
+        vm.error = false;
+        vm.currentUser = $stateParams.currentUser;
+        console.log(vm.currentUser);
 
-    vm.logIn = logIn;
+        vm.logIn = logIn;
 
-   	function logIn(){
-   		if(Auth.logIn(vm.currentUser)){
-   			//$state.go('');
-   			$log.debug('Great logged', Auth.currentUser());
-   		}else{
-   			vm.error = true;
-   		}
-   	}
+        function logIn() {
+            if (Auth.logIn(vm.currentUser)) {
+                $state.go('main', { userData: vm.currentUser });
+            } else {
+                vm.error = true;
+            }
+        }
 
-  }
+    }
 })();

@@ -1,0 +1,12 @@
+{
+    "person1": {
+        "id": "1",
+        "name": "Diego",
+        "detail": "Intern"
+    },
+    "person2": {
+        "id": "2",
+        "name": "Camilo",
+        "detail": "Intern"
+    }
+}
