@@ -20,14 +20,9 @@
         }
 
         function add(title) {
-            console.log(title);
-            console.log("antes: "); // + vm.favorites);
-            //vm.favorites.push("Hola");
-            //console.log(vm.card.title);
             if (title != undefined) {
                 vm.favorites.push(title);
             }
-            console.log("luego: " + vm.favorites);
         }
     }
 
