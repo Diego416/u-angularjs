@@ -1,13 +1,19 @@
 (function() {
-  'use strict';
+    'use strict';
 
-  angular
-    .module('angularApp')
-    .controller('CardController', CardController);
+    angular
+        .module('angularApp')
+        .controller('CardController', CardController);
 
-  /** @ngInject */
-  function CardController() {
-    var vm = this;
-  }
+    /** @ngInject */
+    function CardController($scope) {
+        var vm = this;
+        vm.add = add;
+
+        function add(title) {
+            if (title != undefined)
+                vm.favorites.push(title);
+        }
+    }
 
 })();
