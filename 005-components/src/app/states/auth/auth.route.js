@@ -1,4 +1,4 @@
-(function () {
+(function() {
     'use strict';
 
     angular
@@ -16,8 +16,8 @@
                         template: '<section class="general-section" ui-view></section>'
                     }
                 },
-                onEnter: function(Auth, $state){
-                    if(Auth.currentUser()){
+                onEnter: function(Auth, $state) {
+                    if (Auth.currentUser()) {
                         $state.go('mainDashboard');
                     }
                 }
@@ -28,16 +28,12 @@
                 params: {
                     currentUser: {}
                 },
-                templateUrl: 'app/states/auth/login/login.html',
-                controller: 'AuthLoginController',
-                controllerAs: 'auLoginCtrl'
+                template: '<login></login>'
             })
             .state('signup', {
                 parent: 'auth',
                 url: '/signup',
-                templateUrl: 'app/states/auth/signup/signup.html',
-                controller: 'AuthSignUpController',
-                controllerAs: 'auSignupCtrl'
+                template: '<signup></signup>'
             });
     }
 

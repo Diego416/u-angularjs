@@ -11,18 +11,16 @@
             .state('dashboard', {
                 abstract: true,
                 url: '/dashboard',
-                views:{
-                    "site@":{
+                views: {
+                    "site@": {
                         template: '<section class="dashboard" ui-view="main"></section>'
                     },
-                    "navbar@":{
-                        templateUrl: 'app/components/navbar/navbar.html',
-                        controller: 'NavbarController',
-                        controllerAs: 'navCtrl'
+                    "navbar@": {
+                        template: '<navbar></navbar>'
                     }
                 },
-                onEnter: function(Auth, $state){
-                    if(!Auth.currentUser()){
+                onEnter: function(Auth, $state) {
+                    if (!Auth.currentUser()) {
                         $state.go('login');
                     }
                 }
@@ -30,11 +28,9 @@
             .state('detail', {
                 parent: 'dashboard',
                 url: '/detail',
-                views:{
-                    "main":{
-                        templateUrl: 'app/states/dashboard/detail/detail.html',
-                        controller: 'DashboardDetailController',
-                        controllerAs: 'dasDetailCtrl'
+                views: {
+                    "main": {
+                        template: '<detail></detail>'
                     }
                 }
             })
@@ -44,22 +40,18 @@
                 params: {
                     currentUser: {}
                 },
-                views:{
-                    "main":{
-                        templateUrl: 'app/states/dashboard/main-dashboard/dashboard.html',
-                        controller: 'DashboardController',
-                        controllerAs: 'dasCtrl'
+                views: {
+                    "main": {
+                        template: '<dashboard></dashboard>'
                     }
                 }
             })
             .state('config', {
                 parent: 'dashboard',
                 url: '/config',
-                views:{
-                    "main@":{
-                        templateUrl: 'app/states/dashboard/dashboard/config.html',
-                        controller: 'DashboardConfigController',
-                        controllerAs: 'dasConfigCtrl'
+                views: {
+                    "main@": {
+                        template: '<config></config>'
                     }
                 }
             });
