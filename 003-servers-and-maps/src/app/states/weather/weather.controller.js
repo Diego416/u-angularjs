@@ -47,13 +47,15 @@
             }
         });
 
-        $scope.$on('leafletDirectiveMap.map.click', function(event, args) {
+
+
+        $scope.$on('leafletDirectiveMap.map.click', mapClick);
+
+        function mapClick(event, args) {
             var lat = args.leafletEvent.latlng.lat;
             var lon = args.leafletEvent.latlng.lng;
             var lat2 = (lat).toFixed(1);
             var lon2 = (lon).toFixed(1);
-            //console.log("Lat: " + lat);
-            //console.log("Lon: " + lon);
             var newMarker = {
                 lat: lat,
                 lng: lon,
@@ -87,7 +89,7 @@
                     vm.alert('Error', "No information about this location");
                 })
             }
-        });
+        }
 
     }
 
