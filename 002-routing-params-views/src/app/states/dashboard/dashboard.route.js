@@ -11,9 +11,18 @@
             .state('dashboard', {
                 abstract: true,
                 url: '/dashboard',
-                templateUrl: 'app/states/dashboard/dashboard.html',
-                controller: 'DashboardController',
-                controllerAs: 'DashCtrl',
+                views: {
+                    "site@": {
+                        templateUrl: 'app/states/dashboard/dashboard.html',
+                        controller: 'DashboardController',
+                        controllerAs: 'DashCtrl'
+                    },
+                    "navbar@": {
+                        templateUrl: 'app/components/navbar/navbar.html',
+                        controller: 'NavbarController',
+                        controllerAs: 'navCtrl'
+                    }
+                }
             })
             .state('config', {
                 parent: 'dashboard',
