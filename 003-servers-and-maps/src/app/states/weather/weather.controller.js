@@ -6,11 +6,11 @@
         .controller('WeatherController', WeatherController);
 
     /** @ngInject */
-    function WeatherController($http, $scope, $mdDialog) {
+    function WeatherController($http, $scope, $mdDialog, API, WeatherService) {
         var vm = this;
 
         //Talitos API Key
-        vm.apiKey = '534eccb946ce639dbb41f82b8be15dcc';
+        vm.apiKey = API;
         vm.kind = '0';
         vm.markers = {};
         vm.alert = showAlert;
@@ -66,34 +66,26 @@
 
             if (vm.kind == '0') {
                 //Remember Services
-                $http({
-                    method: 'GET',
-                    url: 'http://api.openweathermap.org/data/2.5/weather?APPID=' + vm.apiKey + '&lat=' + lat + '&lon=' + lon
-                }).then(function successCallback(response) {
-                    vm.alert("Weather", response.data.weather[0].description) //alert(response.data.name); //Not a good practice
+                var response = WeatherService.getHttpData('http://api.openweathermap.org/data/2.5/weather?APPID=' + vm.apiKey + '&lat=' + lat + '&lon=' + lon);
+                response.then(function successCallback(response) {
+                    vm.alert("Weather", response.data.weather[0].description);
                 }, function errorCallback(response) {
                     vm.alert('Error', "No information about this location");
-                });
+                })
             } else if (vm.kind == '1') {
-                $http({
-                    method: 'GET',
-                    url: 'http://api.openweathermap.org/v3/uvi/' + lat2 + ',' + lon2 + '/current.json?appid=' + vm.apiKey
-                }).then(function successCallback(response) {
-                    vm.alert("UV", response.data.data) //alert(response.data.name); //Not a good practice
+                var response = WeatherService.getHttpData('http://api.openweathermap.org/v3/uvi/' + lat2 + ',' + lon2 + '/current.json?appid=' + vm.apiKey);
+                response.then(function successCallback(response) {
+                    vm.alert("UV", response.data.data);
                 }, function errorCallback(response) {
                     vm.alert('Error', "No information about this location");
-                });
-                //http://api.openweathermap.org/v3/uvi/{lat},{lon}./current.json?appid={your-api-key}
+                })
             } else if (vm.kind == '2') {
-                $http({
-                    method: 'GET',
-                    url: 'http://api.openweathermap.org/pollution/v1/co/' + lat2 + ',' + lon2 + '/current.json?appid=' + vm.apiKey
-                }).then(function successCallback(response) {
-                    vm.alert("Pollution", response.data.data[0].value) //alert(response.data.name); //Not a good practice
+                var response = WeatherService.getHttpData('http://api.openweathermap.org/pollution/v1/co/' + lat2 + ',' + lon2 + '/current.json?appid=' + vm.apiKey);
+                response.then(function successCallback(response) {
+                    vm.alert("Pollution", response.data.data[0].value);
                 }, function errorCallback(response) {
                     vm.alert('Error', "No information about this location");
-                });
-                //http://api.openweathermap.org/pollution/v1/co/{location}/current.json?appid={api_key}
+                })
             }
         });
 

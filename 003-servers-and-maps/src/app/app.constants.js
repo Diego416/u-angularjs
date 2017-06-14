@@ -1,7 +1,8 @@
 (function() {
-  'use strict';
+    'use strict';
 
-  angular
-    .module('angularApp')
-    .constant('SITE_NAME', 'Talos University');
+    angular
+        .module('angularApp')
+        .constant('SITE_NAME', 'Talos University')
+        .constant('API', '534eccb946ce639dbb41f82b8be15dcc');
 })();
