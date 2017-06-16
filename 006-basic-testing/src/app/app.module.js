@@ -1,8 +1,8 @@
 (function() {
-  'use strict';
+    'use strict';
 
-  angular
-    .module('angularApp', ['ngAnimate', 'ngCookies', 'ngTouch', 'ngSanitize', 'ngAria', 'ngResource', 'ui.router', 'ui-leaflet', 'ngMaterial']);
+    angular
+        .module('angularApp', ['ngAnimate', 'ngCookies', 'ngTouch', 'ngSanitize', 'ngAria', 'ngResource', 'ui.router', 'ui-leaflet', 'ngMaterial', 'ui.bootstrap']);
 })();
 
-//We call ui-leaflet module to include the map http://angular-ui.github.io/ui-leaflet/#!/examples/simple-map 
+//We call ui-leaflet module to include the map http://angular-ui.github.io/ui-leaflet/#!/examples/simple-map
