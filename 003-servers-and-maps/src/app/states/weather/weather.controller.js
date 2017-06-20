@@ -68,21 +68,21 @@
 
             if (vm.kind == '0') {
                 //Remember Services
-                var response = WeatherService.getHttpData('http://api.openweathermap.org/data/2.5/weather?APPID=' + vm.apiKey + '&lat=' + lat + '&lon=' + lon);
+                var response = WeatherService.getWeather(lat, lon);
                 response.then(function successCallback(response) {
                     vm.alert("Weather", response.data.weather[0].description);
                 }, function errorCallback(response) {
                     vm.alert('Error', "No information about this location");
                 })
             } else if (vm.kind == '1') {
-                var response = WeatherService.getHttpData('http://api.openweathermap.org/v3/uvi/' + lat2 + ',' + lon2 + '/current.json?appid=' + vm.apiKey);
+                var response = WeatherService.getUV(lat2, lon2);
                 response.then(function successCallback(response) {
                     vm.alert("UV", response.data.data);
                 }, function errorCallback(response) {
                     vm.alert('Error', "No information about this location");
                 })
             } else if (vm.kind == '2') {
-                var response = WeatherService.getHttpData('http://api.openweathermap.org/pollution/v1/co/' + lat2 + ',' + lon2 + '/current.json?appid=' + vm.apiKey);
+                var response = WeatherService.getPollution(lat2, lon2);
                 response.then(function successCallback(response) {
                     vm.alert("Pollution", response.data.data[0].value);
                 }, function errorCallback(response) {
