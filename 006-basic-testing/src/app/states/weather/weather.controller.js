@@ -30,7 +30,7 @@
         vm.triggerClick = triggerClick;
         vm.openModal = openModal;
 
-        //$scope.$on('leafletDirectiveMap.map.click', vm.triggerClick);
+        $scope.$on('leafletDirectiveMap.map.click', vm.triggerClick);
 
         function triggerClick(event, args) {
             vm.lat = args.leafletEvent.latlng.lat;
