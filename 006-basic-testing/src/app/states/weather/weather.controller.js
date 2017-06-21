@@ -87,8 +87,6 @@
                 controllerAs: 'dialogCtrl'
             });
         }
-
-        $scope.obj = vm;
     }
 
 })();

@@ -2,118 +2,79 @@
     'use strict';
 
     describe('controller WeatherController', function() {
-        var WeatherController, $scope, controller;
+        var suite = {};
 
         beforeEach(module('angularApp'));
         beforeEach(module('ngResource'));
-        beforeEach(inject(function(_$controller_) {
-            WeatherController = _$controller_;
+        beforeEach(inject(function($injector) {
+            suite.$controller = $injector.get('$controller');
+            suite.$rootScope = $injector.get('$rootScope');
+            suite.scope = suite.$rootScope.$new();
+            suite.$mdDialog = $injector.get('$mdDialog');
+            suite.$log = $injector.get('$log');
+            suite.$q = $injector.get('$q');
+
+            suite.weatherFactoryMock = {
+                getWeather: function(lat, lon) {
+                    return {
+                        query: function() {
+                            suite.queryDeferred = suite.$q.defer();
+                            return { $promise: suite.queryDeferred.promise };
+                        }
+                    };
+                },
+                getUV: function(lat, lon) {
+                    return {
+                        query: function() {
+                            suite.queryDeferred = suite.$q.defer();
+                            return { $promise: suite.queryDeferred.promise };
+                        }
+                    };
+                },
+            };
+
+            suite.vm = suite.$controller('WeatherController', {
+                $scope: suite.scope,
+                $mdDialog: suite.$mdDialog,
+                $log: suite.$log,
+                WeatherFactory: suite.weatherFactoryMock,
+            });
         }));
-        beforeEach(function() {
-            $scope = {};
-            controller = WeatherController('WeatherController', { $scope: $scope });
+
+        afterEach(function() {
+            suite = {};
+        });
+
+        afterAll(function() {
+            suite = null;
         });
 
         it('should be registered', function() {
-            expect(WeatherController).not.toEqual(null);
+            expect(suite.vm).not.toEqual(null);
         });
 
         describe('kind var', function() {
             it('should exist', function() {
-                expect($scope.obj.kind).not.toEqual(null);
+                expect(suite.vm.kind).not.toEqual(null);
             });
 
             it('should be 0', function() {
-                expect($scope.obj.kind).toEqual('0');
-            });
-        });
-
-
-        describe('object options', function() {
-            it('should exist', function() {
-                expect($scope.obj.options).not.toEqual(null);
-            });
-
-            describe('.center', function() {
-                it('should exist', function() {
-                    expect($scope.obj.options.center).not.toEqual(null);
-                });
-
-                it('.lat should exist', function() {
-                    expect($scope.obj.options.center.lat).not.toEqual(null);
-                });
-
-                it('.lat should be 38.8225909761771', function() {
-                    expect($scope.obj.options.center.lat).toEqual(38.8225909761771);
-                });
-
-                it('.lng should exist', function() {
-                    expect($scope.obj.options.center.lng).not.toEqual(null);
-                });
-
-                it('.lng should be -96.5478515625', function() {
-                    expect($scope.obj.options.center.lng).toEqual(-96.5478515625);
-                });
-
-                it('.zoom should exist', function() {
-                    expect($scope.obj.options.center.zoom).not.toEqual(null);
-                });
-
-                it('.zoom should be 4', function() {
-                    expect($scope.obj.options.center.zoom).toEqual(4);
-                });
-            });
-
-            describe('.defaults', function() {
-                it('should exist', function() {
-                    expect($scope.obj.options.defaults).not.toEqual(null);
-                });
-
-                it('.scrollWheelZoom should exist', function() {
-                    expect($scope.obj.options.defaults.scrollWheelZoom).not.toEqual(null);
-                });
-
-                it('.scrollWheelZoom should be false', function() {
-                    expect($scope.obj.options.defaults.scrollWheelZoom).toEqual(false);
-                });
-            });
-
-            describe('.events', function() {
-                it('should exist', function() {
-                    expect($scope.obj.options.events).not.toEqual(null);
-                });
-
-                describe('.map', function() {
-                    it('should exist', function() {
-                        expect($scope.obj.options.events.map).not.toEqual(null);
-                    });
-
-                    it('.enable should exist', function() {
-                        expect($scope.obj.options.events.map.enable).not.toEqual(null);
-                    });
-
-                    it('.logic should exist', function() {
-                        expect($scope.obj.options.events.map.logic).not.toEqual(null);
-                    });
-                });
+                expect(suite.vm.kind).toEqual('0');
             });
         });
 
         it('open modal should exist', function() {
-            expect($scope.obj.openModal).not.toEqual(null);
+            expect(suite.vm.openModal).not.toEqual(null);
         });
 
         describe('triggerClick', function() {
             it('should exist', function() {
-                expect($scope.obj.triggerClick).not.toEqual(null);
+                expect(suite.vm.triggerClick).not.toEqual(null);
             });
 
             describe('after run triggerClick function', function() {
                 beforeEach(function() {
-                    $scope = {};
-                    controller = WeatherController('WeatherController', { $scope: $scope });
-
-                    var args = {
+                    suite.args = {
                         leafletEvent: {
                             latlng: {
                                 lat: 41.83682786072714,
@@ -121,116 +82,108 @@
                             }
                         }
                     };
-
-                    $scope.obj.triggerClick(undefined, args);
                 });
 
-                it('lat should exist', function() {
-                    expect($scope.obj.lat).not.toEqual(null);
-                });
+                describe('with kind var = 0 and successfull', function() {
+                    it('should be successfull', function() {
+                        suite.vm.kind = '0';
 
-                it('lat should be 41.83682786072714', function() {
-                    expect($scope.obj.lat).toEqual(41.83682786072714);
-                });
-
-                it('lon should exist', function() {
-                    expect($scope.obj.lon).not.toEqual(null);
-                });
-
-                it('lon should be -114.169921875', function() {
-                    expect($scope.obj.lon).toEqual(-114.169921875);
-                });
-
-                /*describe('after run triggerClick function with kind var = 0', function() {
-                    beforeEach(function() {
-                        $scope = {};
-                        controller = WeatherController('WeatherController', { $scope: $scope });
-
-                        var args = {
-                            leafletEvent: {
-                                latlng: {
-                                    lat: 41.83682786072714,
-                                    lng: -114.169921875
-                                }
-                            }
-                        };
-
-                        $scope.obj.kind = '0';
-                        $scope.obj.triggerClick(undefined, args);
-                    });
-
-                    describe('response', function() {
-                        it('should exist', function() {
-                            expect($scope.obj.response).not.toEqual(null);
+                        spyOn(suite.weatherFactoryMock, 'getWeather').and.callThrough();
+                        suite.vm.triggerClick(null, suite.args);
+                        suite.queryDeferred.resolve({
+                            name: 'Delano (historical)',
+                            weather: [{ description: 'Sunny' }],
+                            main: { temp: 33 },
+                            success: true
                         });
+                        suite.scope.$apply();
 
-                        it('.place should exist', function() {
-                            expect($scope.obj.response.place).not.toEqual(null);
-                        });
-
-                        it('.place should be Delano (historical)', function() {
-                            expect($scope.obj.response.place).toEqual("Delano (historical)");
-                        });
-
-                        it('.success should exist', function() {
-                            expect($scope.obj.response.success).not.toEqual(null);
-                        });
-
-                        it('.success should be true', function() {
-                            expect($scope.obj.response.success).toEqual(true);
-                        });
-
-                        it('.weather should exist', function() {
-                            expect($scope.obj.response.weather).not.toEqual(null);
-                        });
-
-                        it('.temp should exist', function() {
-                            expect($scope.obj.response.temp).not.toEqual(null);
-                        });
-
+                        //Expects
+                        expect(suite.weatherFactoryMock.getWeather).toHaveBeenCalled();
+                        expect(suite.vm.response.success).toEqual(true);
                     });
                 });
 
-                describe('after run triggerClick function with kind var = 1', function() {
-                    beforeEach(function() {
-                        $scope = {};
-                        controller = WeatherController('WeatherController', { $scope: $scope });
+                describe('with kind var = 0 and null', function() {
+                    it('should be null', function() {
+                        suite.vm.kind = '0';
 
-                        var args = {
-                            leafletEvent: {
-                                latlng: {
-                                    lat: 41.83682786072714,
-                                    lng: -114.169921875
-                                }
-                            }
-                        };
+                        spyOn(suite.weatherFactoryMock, 'getWeather').and.callThrough();
+                        suite.vm.triggerClick(null, suite.args);
+                        suite.queryDeferred.resolve({});
+                        suite.scope.$apply();
 
-                        $scope.obj.kind = '1';
-                        $scope.obj.triggerClick(undefined, args);
+                        //Expects
+                        expect(suite.weatherFactoryMock.getWeather).toHaveBeenCalled();
+                        expect(suite.vm.response.success).toBe(false);
                     });
+                });
 
-                    describe('response', function() {
-                        it('should exist', function() {
-                            expect($scope.obj.response).not.toEqual(null);
-                        });
+                describe('with kind var = 0 and error', function() {
+                    it('should be error', function() {
+                        suite.vm.kind = '0';
 
-                        it('.uv should exist', function() {
-                            expect($scope.obj.response.uv).not.toEqual(null);
-                        });
+                        spyOn(suite.weatherFactoryMock, 'getWeather').and.callThrough();
+                        spyOn(suite.$log, 'debug').and.callThrough();
+                        suite.vm.triggerClick(null, suite.args);
+                        suite.queryDeferred.reject("Error");
+                        suite.scope.$apply();
 
-                        it('.success should exist', function() {
-                            expect($scope.obj.response.success).not.toEqual(null);
-                        });
-
-                        it('.success should be true', function() {
-                            expect($scope.obj.response.success).toEqual(true);
-                        });
+                        //Expects
+                        expect(suite.weatherFactoryMock.getWeather).toHaveBeenCalled();
+                        expect(suite.$log.debug).toHaveBeenCalled();
                     });
-                });*/
+                });
+
+                describe('with kind var = 1 and successfull', function() {
+                    it('should be successfull', function() {
+                        suite.vm.kind = '1';
+
+                        spyOn(suite.weatherFactoryMock, 'getUV').and.callThrough();
+                        suite.vm.triggerClick(null, suite.args);
+                        suite.queryDeferred.resolve({
+                            data: 110,
+                            success: true
+                        });
+                        suite.scope.$apply();
+
+                        //Expects
+                        expect(suite.weatherFactoryMock.getUV).toHaveBeenCalled();
+                        expect(suite.vm.response.success).toEqual(true);
+                    });
+                });
+
+                describe('with kind var = 1 and null', function() {
+                    it('should be null', function() {
+                        suite.vm.kind = '1';
+
+                        spyOn(suite.weatherFactoryMock, 'getUV').and.callThrough();
+                        suite.vm.triggerClick(null, suite.args);
+                        suite.queryDeferred.resolve({});
+                        suite.scope.$apply();
+
+                        //Expects
+                        expect(suite.weatherFactoryMock.getUV).toHaveBeenCalled();
+                        expect(suite.vm.response.success).toBe(false);
+                    });
+                });
+
+                describe('with kind var = 1 and error', function() {
+                    it('should be error', function() {
+                        suite.vm.kind = '1';
+
+                        spyOn(suite.weatherFactoryMock, 'getUV').and.callThrough();
+                        spyOn(suite.$log, 'debug').and.callThrough();
+                        suite.vm.triggerClick(null, suite.args);
+                        suite.queryDeferred.reject("Error");
+                        suite.scope.$apply();
+
+                        //Expects
+                        expect(suite.weatherFactoryMock.getUV).toHaveBeenCalled();
+                        expect(suite.$log.debug).toHaveBeenCalled();
+                    });
+                });
             });
         });
-
-
-
     });
 })();
